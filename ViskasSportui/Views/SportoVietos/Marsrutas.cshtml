@@ -1,0 +1,136 @@
+@* Vietos parinkimo ir maršruto sudarymo langas (3.6 pav.) *@
+@{
+    ViewData["Title"] = "Vietos parinkimas ir maršruto sudarymas";
+    string pasirinktasTaskas = ViewBag.PradziosTaskas;
+    string pasirinktasTipas = ViewBag.Tipas;
+    string prioritetas = ViewBag.Prioritetas;
+}
+
+<h1 class="h3 mb-3">Vietos parinkimas ir maršruto sudarymas</h1>
+
+<div class="row g-4">
+    <!-- Pradžios taško ir kriterijų įvedimo forma -->
+    <div class="col-lg-4">
+        <form method="post" asp-action="Marsrutas" class="card card-body">
+            <div class="mb-3">
+                <label for="pradziosTaskas" class="form-label">Pradžios taškas</label>
+                <select id="pradziosTaskas" name="pradziosTaskas" class="form-select">
+                    <option value="">– pasirinkite –</option>
+                    @foreach (string taskas in DemoDuomenys.PradziosTaskai)
+                    {
+                        if (taskas == pasirinktasTaskas)
+                        {
+                            <option value="@taskas" selected>@taskas</option>
+                        }
+                        else
+                        {
+                            <option value="@taskas">@taskas</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="tipas" class="form-label">Sporto vietos tipas</label>
+                <select id="tipas" name="tipas" class="form-select">
+                    <option value="">Visi tipai</option>
+                    @foreach (string tipas in DemoDuomenys.Tipai)
+                    {
+                        if (tipas == pasirinktasTipas)
+                        {
+                            <option value="@tipas" selected>@tipas</option>
+                        }
+                        else
+                        {
+                            <option value="@tipas">@tipas</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="prioritetas" class="form-label">Prioritetas</label>
+                <select id="prioritetas" name="prioritetas" class="form-select">
+                    @if (prioritetas == "pavadinimas")
+                    {
+                        <option value="atstumas">Artimiausios pirmiau</option>
+                        <option value="pavadinimas" selected>Pagal pavadinimą</option>
+                    }
+                    else
+                    {
+                        <option value="atstumas" selected>Artimiausios pirmiau</option>
+                        <option value="pavadinimas">Pagal pavadinimą</option>
+                    }
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success">Ieškoti ir sudaryti maršrutą</button>
+        </form>
+    </div>
+
+    <!-- Rezultatų sritis -->
+    <div class="col-lg-8">
+        <partial name="_Pranesimai" />
+
+        @if (string.IsNullOrWhiteSpace(pasirinktasTaskas))
+        {
+            if (ViewBag.Klaida == null)
+            {
+                <div class="card card-body text-muted">
+                    Nurodykite pradžios tašką bei kriterijus ir pradėkite paiešką. Rezultatai bus pateikti čia.
+                </div>
+            }
+        }
+        else
+        {
+            <!-- Parinktų sporto vietų pavyzdys -->
+            <p class="small text-muted mb-2">Demonstraciniai rezultatai: tipas ir prioritetas kol kas jų nekeičia.</p>
+            <table class="table table-sm">
+                <thead>
+                    <tr><th>#</th><th>Sporto vieta</th><th>Tipas</th><th class="d-none d-md-table-cell">Adresas</th><th>Demonstracinis atstumas</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Žalgirio arena</td><td>Arena</td><td class="d-none d-md-table-cell">Karaliaus Mindaugo pr. 50, Kaunas</td><td>2,4 km</td></tr>
+                    <tr><td>2</td><td>S. Dariaus ir S. Girėno stadionas</td><td>Stadionas</td><td class="d-none d-md-table-cell">Perkūno al. 5, Kaunas</td><td>3,1 km</td></tr>
+                    <tr><td>3</td><td>Santakos parkas</td><td>Parkas</td><td class="d-none d-md-table-cell">Santakos parkas, Kaunas</td><td>4,2 km</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Statinis scheminis žemėlapis su demonstraciniais maršrutais (be išorinių API) -->
+            <svg viewBox="0 0 600 400" class="zemelapis" role="img" aria-label="Scheminis žemėlapis">
+                <rect width="600" height="400" fill="#eef4ea" />
+
+                <!-- Fonas: upės ir kelios gatvės -->
+                <path d="M0,60 C40,120 30,190 75,230" class="upe" />
+                <path d="M75,230 C160,330 320,345 600,330" class="upe" />
+                <line x1="0" y1="110" x2="600" y2="140" class="gatve" />
+                <line x1="0" y1="250" x2="600" y2="215" class="gatve" />
+                <line x1="190" y1="0" x2="215" y2="400" class="gatve" />
+                <line x1="420" y1="0" x2="400" y2="400" class="gatve" />
+
+                <!-- Demonstraciniai maršrutai nuo pradžios taško iki sporto vietų -->
+                <polyline points="180,150 250,150 250,300" class="marsrutas" />
+                <polyline points="180,150 340,150 340,235" class="marsrutas" />
+                <polyline points="180,150 70,150 70,230" class="marsrutas" />
+
+                <!-- Sporto vietos -->
+                <circle cx="250" cy="300" r="8" fill="#198754" stroke="#fff" stroke-width="2" />
+                <text x="262" y="304">Žalgirio arena</text>
+                <circle cx="340" cy="235" r="8" fill="#198754" stroke="#fff" stroke-width="2" />
+                <text x="352" y="239">S. Dariaus ir S. Girėno stadionas</text>
+                <circle cx="70" cy="230" r="8" fill="#198754" stroke="#fff" stroke-width="2" />
+                <text x="82" y="234">Santakos parkas</text>
+
+                <!-- Pradžios taškas su pasirinktu pavadinimu -->
+                <circle cx="180" cy="150" r="9" fill="#0d6efd" stroke="#fff" stroke-width="2" />
+                <text x="192" y="136" font-weight="bold">@pasirinktasTaskas</text>
+            </svg>
+
+            <p class="small text-muted mt-2">
+                <span class="zyma bg-primary"></span> pradžios taškas
+                <span class="zyma bg-success ms-3"></span> sporto vieta
+                <span class="zyma-linija ms-3"></span> demonstracinis maršrutas
+            </p>
+        }
+    </div>
+</div>

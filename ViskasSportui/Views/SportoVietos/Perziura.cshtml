@@ -1,0 +1,139 @@
+@* Sporto vietų peržiūros langas (3.3 pav.) ir šalinimo patvirtinimo langas (3.2 pav.) *@
+@model List<SportoVieta>
+@{
+    ViewData["Title"] = "Sporto vietų peržiūra";
+    string role = Context.Request.Cookies["Role"];
+    SportoVieta pasirinkta = ViewBag.Pasirinkta;
+    string pasirinktasTipas = ViewBag.Tipas;
+}
+
+<h1 class="h3 mb-3">Sporto vietos</h1>
+
+<partial name="_Pranesimai" />
+
+<div class="row g-4">
+    <!-- Sporto vietų sąrašas ir filtravimas -->
+    <div class="col-lg-7">
+        <form method="get" asp-action="Perziura" class="row g-2 mb-3">
+            <div class="col-sm-5">
+                <input name="pavadinimas" value="@ViewBag.Pavadinimas" class="form-control" placeholder="Pavadinimas" />
+            </div>
+            <div class="col-sm-4">
+                <select name="tipas" class="form-select">
+                    <option value="">Visi tipai</option>
+                    @foreach (string tipas in DemoDuomenys.Tipai)
+                    {
+                        if (tipas == pasirinktasTipas)
+                        {
+                            <option value="@tipas" selected>@tipas</option>
+                        }
+                        else
+                        {
+                            <option value="@tipas">@tipas</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-sm-3 d-grid">
+                <button type="submit" class="btn btn-success">Filtruoti</button>
+            </div>
+        </form>
+
+        @if (Model.Count == 0)
+        {
+            <p class="text-muted">Pagal nurodytus kriterijus sporto vietų nerasta.</p>
+        }
+        else
+        {
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Sporto vieta</th>
+                        <th class="d-none d-sm-table-cell">Tipas</th>
+                        @if (role == "Administratorius")
+                        {
+                            <th></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (SportoVieta vieta in Model)
+                    {
+                        // Pasirinkta sporto vieta sąraše pažymima žaliai
+                        string eilutesKlase = "";
+                        if (pasirinkta != null && vieta.Id == pasirinkta.Id)
+                        {
+                            eilutesKlase = "table-success";
+                        }
+
+                        <tr class="@eilutesKlase">
+                            <td>
+                                <a class="vietos-nuoroda" asp-action="Perziura" asp-route-id="@vieta.Id"
+                                   asp-route-pavadinimas="@ViewBag.Pavadinimas" asp-route-tipas="@ViewBag.Tipas">@vieta.Pavadinimas</a>
+                                <div class="small text-muted">@vieta.Adresas</div>
+                            </td>
+                            <td class="d-none d-sm-table-cell">@vieta.Tipas</td>
+
+                            @* Administratorius sąraše pasirenka redaguoti arba šalinti sporto vietą (3.5 ir 3.2 pav.) *@
+                            @if (role == "Administratorius")
+                            {
+                                <td class="text-end text-nowrap">
+                                    <a class="btn btn-link btn-sm" asp-action="Redaguoti" asp-route-id="@vieta.Id">Redaguoti</a>
+                                    <button type="button" class="btn btn-link btn-sm text-danger"
+                                            data-bs-toggle="modal" data-bs-target="#salinimoPatvirtinimas-@vieta.Id">
+                                        Šalinti
+                                    </button>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <!-- Pasirinktos sporto vietos informacija -->
+    <div class="col-lg-5">
+        @if (pasirinkta == null)
+        {
+            <div class="card card-body text-muted">Pasirinkite sporto vietą iš sąrašo.</div>
+        }
+        else
+        {
+            <div class="card card-body">
+                <h2 class="h5 card-title">@pasirinkta.Pavadinimas</h2>
+                <div><span class="badge bg-success mb-3">@pasirinkta.Tipas</span></div>
+                <p class="mb-1"><strong>Adresas:</strong> @pasirinkta.Adresas</p>
+                <p class="mb-0"><strong>Aprašymas:</strong> @pasirinkta.Aprasymas</p>
+            </div>
+        }
+    </div>
+</div>
+
+@* Kiekvienai sporto vietai – savas šalinimo patvirtinimo langas (atidaromas mygtuku „Šalinti“) *@
+@if (role == "Administratorius")
+{
+    foreach (SportoVieta vieta in Model)
+    {
+        <!-- Sporto vietos šalinimo patvirtinimo langas -->
+        <div class="modal fade" id="salinimoPatvirtinimas-@vieta.Id" tabindex="-1" aria-labelledby="salinimoAntraste-@vieta.Id" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title h5" id="salinimoAntraste-@vieta.Id">Sporto vietos šalinimas</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Uždaryti"></button>
+                    </div>
+                    <div class="modal-body">
+                        Ar tikrai norite pašalinti sporto vietą „@vieta.Pavadinimas“?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Atšaukti</button>
+                        <form method="post" asp-action="Salinti" asp-route-id="@vieta.Id">
+                            <button type="submit" class="btn btn-danger">Patvirtinti šalinimą</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

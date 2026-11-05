@@ -1,0 +1,40 @@
+@* Registracijos langas (3.12 pav.) *@
+@{
+    ViewData["Title"] = "Registracija";
+    string role = Context.Request.Cookies["Role"];
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+        <h1 class="h3 mb-3">Registracija</h1>
+
+        @if (role != null)
+        {
+            <div class="alert alert-warning">Funkcija prieinama tik svečiui.</div>
+        }
+        else
+        {
+            <partial name="_Pranesimai" />
+
+            <form method="post" asp-action="Registracija" class="card card-body">
+                <div class="mb-3">
+                    <label for="vardas" class="form-label">Vardas</label>
+                    <input id="vardas" name="vardas" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="elPastas" class="form-label">El. paštas</label>
+                    <input id="elPastas" name="elPastas" type="email" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="slaptazodis" class="form-label">Slaptažodis</label>
+                    <input id="slaptazodis" name="slaptazodis" type="password" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="slaptazodisPakartoti" class="form-label">Pakartokite slaptažodį</label>
+                    <input id="slaptazodisPakartoti" name="slaptazodisPakartoti" type="password" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-success">Registruotis</button>
+            </form>
+        }
+    </div>
+</div>

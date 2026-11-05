@@ -1,0 +1,29 @@
+@* Sporto vietos redagavimo forma (3.5 pav.) *@
+@model SportoVieta
+@{
+    ViewData["Title"] = "Sporto vietos redagavimas";
+    string role = Context.Request.Cookies["Role"];
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <h1 class="h3 mb-3">Redaguoti sporto vietą</h1>
+
+        @if (role != "Administratorius")
+        {
+            <div class="alert alert-warning">Funkcija prieinama tik administratoriui.</div>
+        }
+        else
+        {
+            <partial name="_Pranesimai" />
+
+            @if (Model != null)
+            {
+                <form method="post" asp-action="Redaguoti" asp-route-id="@Model.Id" class="card card-body">
+                    <partial name="_SportoVietosForma" model="Model" />
+                    <button type="submit" class="btn btn-success">Išsaugoti pakeitimus</button>
+                </form>
+            }
+        }
+    </div>
+</div>

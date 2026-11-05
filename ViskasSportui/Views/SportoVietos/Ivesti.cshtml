@@ -1,0 +1,26 @@
+@* Sporto vietos įvedimo langas (3.4 pav.) *@
+@model SportoVieta
+@{
+    ViewData["Title"] = "Sporto vietos įvedimas";
+    string role = Context.Request.Cookies["Role"];
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <h1 class="h3 mb-3">Įvesti sporto vietą</h1>
+
+        @if (role != "Administratorius")
+        {
+            <div class="alert alert-warning">Funkcija prieinama tik administratoriui.</div>
+        }
+        else
+        {
+            <partial name="_Pranesimai" />
+
+            <form method="post" asp-action="Ivesti" class="card card-body">
+                <partial name="_SportoVietosForma" model="Model" />
+                <button type="submit" class="btn btn-success">Įvesti</button>
+            </form>
+        }
+    </div>
+</div>

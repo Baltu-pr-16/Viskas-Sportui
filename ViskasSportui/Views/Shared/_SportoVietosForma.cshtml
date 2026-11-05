@@ -1,0 +1,31 @@
+@* Bendri sporto vietos formos laukai įvedimo langui ir redagavimo formai.
+   Platuma ir ilguma nerodomos: koordinatės naudojamos tik sistemos viduje. *@
+@model SportoVieta
+
+<div class="mb-3">
+    <label asp-for="Pavadinimas" class="form-label">Pavadinimas *</label>
+    <input asp-for="Pavadinimas" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label asp-for="Tipas" class="form-label">Tipas</label>
+    <select asp-for="Tipas" class="form-select">
+        <option value="">– pasirinkite –</option>
+        @foreach (string tipas in DemoDuomenys.Tipai)
+        {
+            <option value="@tipas">@tipas</option>
+        }
+    </select>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Adresas" class="form-label">Adresas</label>
+    <input asp-for="Adresas" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label asp-for="Aprasymas" class="form-label">Aprašymas</label>
+    <textarea asp-for="Aprasymas" class="form-control" rows="3"></textarea>
+</div>
+
+<p class="small text-muted">* – privalomas laukas</p>

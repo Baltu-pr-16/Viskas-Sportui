@@ -1,0 +1,28 @@
+@* Pagrindinis langas. Perėjimai į kitus langus – viršutiniame meniu. *@
+@{
+    ViewData["Title"] = "Pagrindinis langas";
+    string role = Context.Request.Cookies["Role"];
+}
+
+<h1>Viskas Sportui</h1>
+<p class="lead mb-4">
+    Sporto informacinė sistema, kurioje vienoje vietoje galima rasti sporto vietas ir renginius,
+    palyginti sporto prekių pasiūlymus bei planuoti treniruotes.
+</p>
+
+@if (role == null)
+{
+    <div class="alert alert-light border">
+        Naršote kaip <strong>svečias</strong>. Norėdami naudotis visomis funkcijomis, registruokitės arba prisijunkite.
+    </div>
+}
+else if (role == "Administratorius")
+{
+    <div class="alert alert-success">Prisijungta kaip <strong>administratorius</strong>.</div>
+}
+else
+{
+    <div class="alert alert-success">Prisijungta kaip <strong>registruotas naudotojas</strong>.</div>
+}
+
+<p class="text-muted">Pasirinkite norimą funkciją viršutiniame meniu.</p>

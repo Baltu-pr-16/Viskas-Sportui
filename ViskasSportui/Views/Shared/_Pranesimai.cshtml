@@ -1,0 +1,12 @@
+@* Sėkmės ir klaidos pranešimai, bendri visiems langams.
+   Valdiklis pranešimą perduoda per ViewBag.Sekme arba ViewBag.Klaida. *@
+
+@if (ViewBag.Sekme != null)
+{
+    <div class="alert alert-success">@ViewBag.Sekme</div>
+}
+
+@if (ViewBag.Klaida != null)
+{
+    <div class="alert alert-danger">@ViewBag.Klaida</div>
+}
