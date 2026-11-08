@@ -1,0 +1,47 @@
+@* Renginio informacijos langas *@
+@model SportoRenginys
+@{
+    ViewData["Title"] = "Renginio informacija";
+    string role = Context.Request.Cookies["Role"];
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <h1 class="h3 mb-3">Renginio informacija</h1>
+
+        <partial name="_Pranesimai" />
+
+        @if (Model != null)
+        {
+            <div class="card card-body">
+                <h2 class="h5 card-title">@Model.Pavadinimas</h2>
+                <div class="mb-3">
+                    <span class="badge bg-success">@Model.SportoSaka</span>
+                    @if (Model.JauIvyko())
+                    {
+                        <span class="badge bg-secondary">Jau įvyko</span>
+                    }
+                </div>
+                <p class="mb-1"><strong>Vieta:</strong> @Model.Vieta</p>
+                <p class="mb-1">
+                    <strong>Data:</strong> @Model.PradziosData.ToString("yyyy-MM-dd")
+                    @if (Model.PabaigosData.Date != Model.PradziosData.Date)
+                    {
+                        <span>– @Model.PabaigosData.ToString("yyyy-MM-dd")</span>
+                    }
+                </p>
+                <p class="mb-3"><strong>Aprašymas:</strong> @Model.Aprasymas</p>
+
+                @* Pažymėti kaip dominantį gali tik registruotas naudotojas ir tik aktyvų renginį *@
+                @if (role == "Registruotas" && !Model.JauIvyko())
+                {
+                    <form method="post" asp-action="PazymetiDominanti" asp-route-id="@Model.Id">
+                        <button type="submit" class="btn btn-success">Pažymėti kaip dominantį</button>
+                    </form>
+                }
+            </div>
+        }
+
+        <a class="btn btn-link mt-3 ps-0" asp-action="Perziura">← Grįžti į renginių sąrašą</a>
+    </div>
+</div>

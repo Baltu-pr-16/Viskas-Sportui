@@ -1,0 +1,41 @@
+@* Bendri sporto renginio formos laukai įvedimo ir redagavimo langams *@
+@model SportoRenginys
+
+<div class="mb-3">
+    <label asp-for="Pavadinimas" class="form-label">Pavadinimas *</label>
+    <input asp-for="Pavadinimas" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label asp-for="SportoSaka" class="form-label">Sporto šaka *</label>
+    <select asp-for="SportoSaka" class="form-select">
+        <option value="">– pasirinkite –</option>
+        @foreach (string saka in RenginiuDemoDuomenys.SportoSakos)
+        {
+            <option value="@saka">@saka</option>
+        }
+    </select>
+</div>
+
+<div class="row">
+    <div class="col-sm-6 mb-3">
+        <label asp-for="PradziosData" class="form-label">Pradžios data</label>
+        <input asp-for="PradziosData" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+    </div>
+    <div class="col-sm-6 mb-3">
+        <label asp-for="PabaigosData" class="form-label">Pabaigos data</label>
+        <input asp-for="PabaigosData" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+    </div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Vieta" class="form-label">Vieta</label>
+    <input asp-for="Vieta" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label asp-for="Aprasymas" class="form-label">Aprašymas</label>
+    <textarea asp-for="Aprasymas" class="form-control" rows="3"></textarea>
+</div>
+
+<p class="small text-muted">* – privalomas laukas</p>

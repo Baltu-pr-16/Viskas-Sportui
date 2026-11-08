@@ -1,0 +1,37 @@
+@* Renginių peržiūros langas: artėjančių renginių sąrašas *@
+@model List<SportoRenginys>
+@{
+    ViewData["Title"] = "Sporto renginiai";
+}
+
+<h1 class="h3 mb-3">Artėjantys sporto renginiai</h1>
+
+@if (Model.Count == 0)
+{
+    <p class="text-muted">Artėjančių renginių nėra.</p>
+}
+else
+{
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Renginys</th>
+                <th class="d-none d-sm-table-cell">Sporto šaka</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (SportoRenginys renginys in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="vietos-nuoroda" asp-action="Informacija" asp-route-id="@renginys.Id">@renginys.Pavadinimas</a>
+                        <div class="small text-muted">@renginys.Vieta</div>
+                    </td>
+                    <td class="d-none d-sm-table-cell">@renginys.SportoSaka</td>
+                    <td class="text-nowrap">@renginys.PradziosData.ToString("yyyy-MM-dd")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -11,6 +11,7 @@
     string registracijosKlase = "nav-link";
     string prisijungimoKlase = "nav-link";
     string sportoPrekiuKlase = "nav-link";
+    string sportoRenginiuKlase = "nav-link";
 
     if (valdiklis == "SportoVietos" && veiksmas == "Marsrutas")
     {
@@ -23,6 +24,10 @@
     else if (valdiklis == "SportoPrekes")
     {
         sportoPrekiuKlase = "nav-link active";
+    }
+    else if (valdiklis == "SportoRenginiai")
+    {
+        sportoRenginiuKlase = "nav-link active";
     }
     else if (veiksmas == "Registracija")
     {
@@ -88,7 +93,22 @@
 
                     <!-- Treniruočių planavimo posistemė (Kostas): meniu punktai pridedami čia -->
 
-                    <!-- Sporto renginių posistemė (Pijus): meniu punktai pridedami čia -->
+                    <!-- Sporto renginių posistemė (Pijus) -->
+                    <li class="nav-item dropdown">
+                        <a class="@sportoRenginiuKlase dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sporto renginiai</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-controller="SportoRenginiai" asp-action="Perziura">Peržiūrėti renginius</a></li>
+                            @if (role == "Registruotas")
+                            {
+                                <li><a class="dropdown-item" asp-controller="SportoRenginiai" asp-action="Rekomendacijos">Rekomenduojami renginiai</a></li>
+                            }
+                            @if (role == "Administratorius")
+                            {
+                                <li><a class="dropdown-item" asp-controller="SportoRenginiai" asp-action="Valdymas">Valdyti renginius</a></li>
+                                <li><a class="dropdown-item" asp-controller="SportoRenginiai" asp-action="Ivesti">Įvesti renginį</a></li>
+                            }
+                        </ul>
+                    </li>
                 </ul>
 
                 <!-- Sisteminės funkcijos: registracija, prisijungimas, atsijungimas -->
