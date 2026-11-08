@@ -10,6 +10,7 @@
     string marsrutoKlase = "nav-link";
     string registracijosKlase = "nav-link";
     string prisijungimoKlase = "nav-link";
+    string sportoPrekiuKlase = "nav-link";
 
     if (valdiklis == "SportoVietos" && veiksmas == "Marsrutas")
     {
@@ -18,6 +19,10 @@
     else if (valdiklis == "SportoVietos")
     {
         sportoVietuKlase = "nav-link active";
+    }
+    else if (valdiklis == "SportoPrekes")
+    {
+        sportoPrekiuKlase = "nav-link active";
     }
     else if (veiksmas == "Registracija")
     {
@@ -76,7 +81,9 @@
                     <li class="nav-item">
                         <a class="@marsrutoKlase" asp-controller="SportoVietos" asp-action="Marsrutas">Maršruto sudarymas</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="@sportoPrekiuKlase" asp-controller="SportoPrekes" asp-action="Perziura">Sporto prekės</a>
+                    </li>
                     <!-- Sporto prekių ir kainų palyginimo posistemė (Povilas): meniu punktai pridedami čia -->
 
                     <!-- Treniruočių planavimo posistemė (Kostas): meniu punktai pridedami čia -->

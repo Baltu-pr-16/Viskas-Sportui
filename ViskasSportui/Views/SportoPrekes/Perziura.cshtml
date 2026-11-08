@@ -1,0 +1,80 @@
+@model IEnumerable<ViskasSportui.Models.SportoPreke>
+
+@{
+    ViewData["Title"] = "Perziura";
+    string role = Context.Request.Cookies["Role"];
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Sporto prekių peržiūra</h1>
+    <div class="d-flex gap-2">
+        @* Nuoroda į savybių filtrą *@
+         @if (role != "Administratorius"){
+        <a asp-action="PaieskosFiltrai" class="btn btn-outline-primary">
+            ⚙️ Paieškos filtrai
+        </a>
+        <a asp-action="PrekesPasiulymoPaieskosForma" class="btn btn-outline-success">
+            🔍 Nauja pasiūlymų paieška
+        </a>
+        }
+    </div>
+</div>
+
+@if (ViewBag.FiltruotaPagalSavybe != null)
+{
+    <div class="alert alert-info py-2">
+        Taikomas filtras pagal savybę: <strong>@ViewBag.FiltruotaPagalSavybe</strong> 
+        <a asp-action="Perziura" class="ms-3 text-danger text-decoration-none">✖ Išvalyti filtrą</a>
+    </div>
+}
+
+@if (role == "Administratorius")
+{
+    <p>
+        <a asp-action="Sukurti" class="btn btn-primary btn-sm">Sukurti naują prekę</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Pavadinimas)</th>
+            <th>@Html.DisplayNameFor(model => model.Gamintojas)</th>
+            <th>@Html.DisplayNameFor(model => model.Modelis)</th>
+            <th>@Html.DisplayNameFor(model => model.Aprasymas)</th>
+            <th>@Html.DisplayNameFor(model => model.Kategorija)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(model => item.Pavadinimas)</td>
+                <td>@Html.DisplayFor(model => item.Gamintojas)</td>
+                <td>@Html.DisplayFor(model => item.Modelis)</td>
+                <td>@Html.DisplayFor(model => item.Aprasymas)</td>
+                <td>@Html.DisplayFor(model => item.Kategorija)</td>
+                <td>
+                    @if (role == "Administratorius")
+                    {
+                        <a asp-action="Redaguoti" asp-route-id="@item.Id">Redaguoti</a> @:|
+                    }
+                    @if (role != "Administratorius")
+                    {
+                        <a asp-action="PrekesInfo" asp-route-id="@item.Id">Prekės informacija</a> 
+                    }
+                    
+                    @if (role != "Administratorius")
+                    {
+                        <a asp-action="PrekesPasiulymoPaieskosForma" asp-route-id="@item.Id" class="text-success fw-bold">Ieškoti pasiūlymų</a>
+                    }
+                    @if (role == "Administratorius")
+                    {
+                         <a asp-action="Istrinti" asp-route-id="@item.Id">Ištrinti</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Paieškos filtruoti pagal savybes";
+    var savybes = ViewBag.Savybes as List<ViskasSportui.Models.PrekesSavybe>;
+}
+
+<h2>Prekių filtravimas pagal savybes</h2>
+<p class="text-muted">Pasirinkite kriterijus ir reikšmių ribas prekių atrankai.</p>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="VykdytiFiltravima" method="post">
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Prekės savybė</label>
+                <select name="savybesPavadinimas" class="form-select">
+                    <option value="">-- Pasirinkite savybę --</option>
+                    @if (savybes != null)
+                    {
+                        foreach (var savybe in savybes)
+                        {
+                            <option value="@savybe.Pavadinimas">
+                                @savybe.Pavadinimas (@savybe.MatavimoVienetas)
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label class="form-label">Min. reikšmė</label>
+                    <input type="number" step="any" name="minReiksme" class="form-control" placeholder="Nuo" />
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Maks. reikšmė</label>
+                    <input type="number" step="any" name="maxReiksme" class="form-control" placeholder="Iki" />
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Taikyti filtrą</button>
+                <a asp-action="Perziura" class="btn btn-secondary">Grįžti į sąrašą</a>
+            </div>
+        </form>
+    </div>
+</div>
