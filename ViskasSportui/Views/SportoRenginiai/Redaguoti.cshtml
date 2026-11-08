@@ -1,0 +1,52 @@
+@* Renginio redagavimo langas ir redagavimo patvirtinimo langas *@
+@model SportoRenginys
+@{
+    ViewData["Title"] = "Renginio redagavimas";
+    string role = Context.Request.Cookies["Role"];
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <h1 class="h3 mb-3">Redaguoti sporto renginį</h1>
+
+        @if (role != "Administratorius")
+        {
+            <div class="alert alert-warning">Funkcija prieinama tik administratoriui.</div>
+        }
+        else
+        {
+            <partial name="_Pranesimai" />
+
+            @if (Model != null)
+            {
+                <form method="post" asp-action="Redaguoti" asp-route-id="@Model.Id" id="redagavimoForma" class="card card-body">
+                    <partial name="_SportoRenginioForma" model="Model" />
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#redagavimoPatvirtinimas">
+                        Išsaugoti pakeitimus
+                    </button>
+                </form>
+
+                <!-- Redagavimo patvirtinimo langas -->
+                <div class="modal fade" id="redagavimoPatvirtinimas" tabindex="-1" aria-labelledby="redagavimoAntraste" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2 class="modal-title h5" id="redagavimoAntraste">Renginio redagavimas</h2>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Uždaryti"></button>
+                            </div>
+                            <div class="modal-body">
+                                Ar tikrai norite išsaugoti renginio „@Model.Pavadinimas“ pakeitimus?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Atšaukti</button>
+                                <button type="submit" form="redagavimoForma" class="btn btn-success">Patvirtinti</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <a class="btn btn-link mt-3 ps-0" asp-action="Valdymas">← Grįžti į renginių valdymą</a>
+        }
+    </div>
+</div>
