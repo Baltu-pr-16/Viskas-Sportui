@@ -1,0 +1,42 @@
+﻿@model ViskasSportui.Models.SportoPreke
+
+@{
+    ViewData["Title"] = "Pasiūlymų paieškos forma";
+}
+
+<h2>Pasiūlymų paieška internetinėse parduotuvėse</h2>
+<p class="text-muted">Įveskite arba patikslinkite prekės informaciją, pagal kurią bus ieškomi pasiūlymai.</p>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="VykdytiPasiulymuPaieska" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label asp-for="Pavadinimas" class="form-label">Prekės pavadinimas</label>
+                <input asp-for="Pavadinimas" class="form-control" placeholder="Pvz., Krepšinio kamuolys" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Gamintojas" class="form-label">Gamintojas</label>
+                <input asp-for="Gamintojas" class="form-control" placeholder="Pvz., Spalding" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Modelis" class="form-label">Modelis</label>
+                <input asp-for="Modelis" class="form-control" placeholder="Pvz., TF-1000" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Kategorija" class="form-label">Kategorija</label>
+                <input asp-for="Kategorija" class="form-control" placeholder="Pvz., Krepšinis" />
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success">Ieškoti pasiūlymų</button>
+                <a asp-action="Perziura" class="btn btn-secondary">Atšaukti</a>
+            </div>
+        </form>
+    </div>
+</div>

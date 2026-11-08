@@ -1,0 +1,56 @@
+@model ViskasSportui.Models.SportoPreke
+
+@{
+    ViewData["Title"] = "PrekesInfo";
+    string role = Context.Request.Cookies["Role"];
+}
+
+<h1>Prekės informacija</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pavadinimas)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pavadinimas)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Gamintojas)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Gamintojas)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Modelis)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Modelis)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Aprasymas)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Aprasymas)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Kategorija)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Kategorija)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (role == "Administratorius")
+                    {
+                        @:| <a asp-action="Redaguoti" asp-route-id="@Model?.Id">Redaguoti</a>
+                    }
+    
+    <a asp-action="Perziura">Grįžti į sąrašą</a>
+</div>
