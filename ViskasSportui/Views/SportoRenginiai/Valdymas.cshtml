@@ -1,0 +1,72 @@
+@* Renginių valdymo langas ir šalinimo patvirtinimo langas *@
+@model List<SportoRenginys>
+@{
+    ViewData["Title"] = "Renginių valdymas";
+    string role = Context.Request.Cookies["Role"];
+}
+
+<h1 class="h3 mb-3">Renginių valdymas</h1>
+
+@if (role != "Administratorius")
+{
+    <div class="alert alert-warning">Funkcija prieinama tik administratoriui.</div>
+}
+else
+{
+    <partial name="_Pranesimai" />
+
+    <form method="post" asp-action="Salinti" id="salinimoForma">
+        <div class="d-flex justify-content-between mb-3">
+            <a class="btn btn-success" asp-action="Ivesti">Įvesti renginį</a>
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#salinimoPatvirtinimas">
+                Šalinti pažymėtus
+            </button>
+        </div>
+
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Renginys</th>
+                    <th class="d-none d-sm-table-cell">Data</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (SportoRenginys renginys in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" class="form-check-input" name="pazymeti" value="@renginys.Id" aria-label="Pažymėti @renginys.Pavadinimas" /></td>
+                        <td>
+                            <span class="vietos-nuoroda">@renginys.Pavadinimas</span>
+                            <div class="small text-muted">@renginys.SportoSaka · @renginys.Vieta</div>
+                        </td>
+                        <td class="d-none d-sm-table-cell text-nowrap">@renginys.PradziosData.ToString("yyyy-MM-dd")</td>
+                        <td class="text-end">
+                            <a class="btn btn-link btn-sm" asp-action="Redaguoti" asp-route-id="@renginys.Id">Redaguoti</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+
+    <!-- Šalinimo patvirtinimo langas. „Atšaukti“ palieka renginių sąrašą nepakeistą. -->
+    <div class="modal fade" id="salinimoPatvirtinimas" tabindex="-1" aria-labelledby="salinimoAntraste" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title h5" id="salinimoAntraste">Renginių šalinimas</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Uždaryti"></button>
+                </div>
+                <div class="modal-body">
+                    Ar tikrai norite pašalinti pažymėtus renginius?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Atšaukti</button>
+                    <button type="submit" form="salinimoForma" class="btn btn-danger">Patvirtinti šalinimą</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

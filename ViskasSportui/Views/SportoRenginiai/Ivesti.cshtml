@@ -1,0 +1,28 @@
+@* Renginio duomenų įvedimo langas *@
+@model SportoRenginys
+@{
+    ViewData["Title"] = "Renginio įvedimas";
+    string role = Context.Request.Cookies["Role"];
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <h1 class="h3 mb-3">Įvesti sporto renginį</h1>
+
+        @if (role != "Administratorius")
+        {
+            <div class="alert alert-warning">Funkcija prieinama tik administratoriui.</div>
+        }
+        else
+        {
+            <partial name="_Pranesimai" />
+
+            <form method="post" asp-action="Ivesti" class="card card-body">
+                <partial name="_SportoRenginioForma" model="Model" />
+                <button type="submit" class="btn btn-success">Įvesti</button>
+            </form>
+
+            <a class="btn btn-link mt-3 ps-0" asp-action="Valdymas">← Grįžti į renginių valdymą</a>
+        }
+    </div>
+</div>
