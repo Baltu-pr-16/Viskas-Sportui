@@ -1,0 +1,21 @@
+@{ ViewData["Title"] = "Treniruočių programos"; }
+<h2>Treniruočių programos</h2>
+<form class="row g-2 mb-3">
+    <div class="col-md-4"><input class="form-control" placeholder="Tikslas" /></div>
+    <div class="col-md-3"><select class="form-select"><option>Visi sunkumo lygiai</option><option>Pradedantysis</option><option>Pažengęs</option></select></div>
+    <div class="col-auto"><button type="button" class="btn btn-outline-primary">Filtruoti</button></div>
+</form>
+<table class="table">
+    <thead><tr><th>Pavadinimas</th><th>Tikslas</th><th>Sunkumo lygis</th><th></th></tr></thead>
+    <tbody>
+        <tr><td>Bėgimo pradžiamokslis</td><td>Ištvermė</td><td>Pradedantysis</td><td>
+            <a asp-action="ProgramosInfo">Informacija</a> |
+            <a asp-action="Redaguoti">Redaguoti</a> |
+            <a asp-action="Istrinti">Šalinti</a></td></tr>
+        <tr><td>Jėgos pagrindai</td><td>Jėga</td><td>Pažengęs</td><td>
+            <a asp-action="ProgramosInfo">Informacija</a> |
+            <a asp-action="Redaguoti">Redaguoti</a> |
+            <a asp-action="Istrinti">Šalinti</a></td></tr>
+    </tbody>
+</table>
+<a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Į pagrindinį langą</a>

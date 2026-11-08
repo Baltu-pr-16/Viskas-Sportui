@@ -11,6 +11,7 @@
     string registracijosKlase = "nav-link";
     string prisijungimoKlase = "nav-link";
     string sportoPrekiuKlase = "nav-link";
+    string treniruociuKlase = "nav-link dropdown-toggle";
 
     if (valdiklis == "SportoVietos" && veiksmas == "Marsrutas")
     {
@@ -23,6 +24,10 @@
     else if (valdiklis == "SportoPrekes")
     {
         sportoPrekiuKlase = "nav-link active";
+    }
+    else if (valdiklis == "TreniruociuProgramos" || valdiklis == "Treniruotes")
+    {
+        treniruociuKlase = "nav-link dropdown-toggle active";
     }
     else if (veiksmas == "Registracija")
     {
@@ -87,8 +92,19 @@
                     <!-- Sporto prekių ir kainų palyginimo posistemė (Povilas): meniu punktai pridedami čia -->
 
                     <!-- Treniruočių planavimo posistemė (Kostas): meniu punktai pridedami čia -->
-
+                    @if (role != null)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="@treniruociuKlase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Treniruočių planavimas</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Treniruotes" asp-action="IntensyvumoSkaiciavimas">Intensyvumo skaičiavimas</a></li>
+                                <li><a class="dropdown-item" asp-controller="TreniruociuProgramos" asp-action="Perziura">Treniruočių programos</a></li>
+                                <li><a class="dropdown-item" asp-controller="Treniruotes" asp-action="Sudaryti">Treniruotės sudarymas</a></li>
+                            </ul>
+                        </li>
+                    }
                     <!-- Sporto renginių posistemė (Pijus): meniu punktai pridedami čia -->
+
                 </ul>
 
                 <!-- Sisteminės funkcijos: registracija, prisijungimas, atsijungimas -->

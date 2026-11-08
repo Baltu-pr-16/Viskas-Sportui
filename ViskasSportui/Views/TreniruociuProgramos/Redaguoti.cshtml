@@ -1,0 +1,12 @@
+@{ ViewData["Title"] = "Programos redagavimas"; }
+<h2>Programos redagavimas</h2>
+<form>
+    <div class="mb-3"><label class="form-label">Pavadinimas</label><input class="form-control" value="Bėgimo pradžiamokslis" /></div>
+    <div class="mb-3"><label class="form-label">Aprašymas</label><textarea class="form-control"></textarea></div>
+    <div class="mb-3"><label class="form-label">Tikslas</label><input class="form-control" /></div>
+    <div class="mb-3"><label class="form-label">Sunkumo lygis</label><input class="form-control" /></div>
+    <div class="mb-3"><label class="form-label">Trukmė savaitėmis</label><input type="number" class="form-control" /></div>
+    <div class="mb-3"><label class="form-label">Treniruočių skaičius per savaitę</label><input type="number" class="form-control" /></div>
+    <a class="btn btn-primary" asp-action="RedagavimoPatvirtinimas">Išsaugoti</a>
+    <a class="btn btn-outline-secondary" asp-action="Perziura">Atšaukti</a>
+</form>

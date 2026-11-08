@@ -1,0 +1,9 @@
+@{ ViewData["Title"] = "Intensyvumo skaičiavimas"; }
+<h2>Sporto intensyvumo skaičiavimas</h2>
+<form>
+    <div class="mb-3"><label class="form-label">Trukmė (min.)</label><input type="number" class="form-control" /></div>
+    <div class="mb-3"><label class="form-label">Pulsas</label><input type="number" class="form-control" /></div>
+    <div class="mb-3"><label class="form-label">Apkrova</label><input class="form-control" /></div>
+    <a class="btn btn-primary" asp-action="SkaiciavimoRezultatas">Skaičiuoti</a>
+    <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Atšaukti</a>
+</form>

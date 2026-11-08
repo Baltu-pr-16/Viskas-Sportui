@@ -1,0 +1,7 @@
+@* Įdėkite į Home/Index.cshtml (Pagrindinis langas): @await Html.PartialAsync("_TreniruociuPlanavimoNuorodos") *@
+<h4>Treniruočių planavimas</h4>
+<div class="list-group mb-3">
+    <a class="list-group-item list-group-item-action" asp-controller="Treniruotes" asp-action="IntensyvumoSkaiciavimas">Sporto intensyvumo skaičiavimas</a>
+    <a class="list-group-item list-group-item-action" asp-controller="TreniruociuProgramos" asp-action="Perziura">Treniruočių programos</a>
+    <a class="list-group-item list-group-item-action" asp-controller="Treniruotes" asp-action="Sudaryti">Treniruotės sudarymas</a>
+</div>
